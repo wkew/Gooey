@@ -96,7 +96,7 @@ def process(parser, widget_dict):
 
   return list(categorize(required_actions, widget_dict, required=True)) + \
          list(categorize(optional_actions, widget_dict)) + \
-         map(build_radio_group, mutually_exclusive_groups)
+         list(map(build_radio_group, mutually_exclusive_groups))
 
 def categorize(actions, widget_dict, required=False):
   _get_widget = partial(get_widget, widgets=widget_dict)
@@ -110,7 +110,7 @@ def categorize(actions, widget_dict, required=False):
     elif is_counter(action):
       _json = as_json(action, _get_widget(action) or 'Counter', required)
       # pre-fill the 'counter' dropdown
-      _json['data']['choices'] = map(str, range(1, 11))
+      _json['data']['choices'] = list(map(str, range(1, 11)))
       yield _json
     else:
       raise UnknownWidgetType(action)
@@ -125,16 +125,16 @@ def is_required(action):
   return not action.option_strings and not isinstance(action, _SubParsersAction) or action.required == True
 
 def has_required(actions):
-  return filter(None, filter(is_required, actions))
+  return list(filter(None, filter(is_required, actions)))
 
 def is_subparser(action):
   return isinstance(action,_SubParsersAction)
 
 def has_subparsers(actions):
-    return filter(is_subparser, actions)
+    return list(filter(is_subparser, actions))
 
 def get_subparser(actions):
-    return filter(is_subparser, actions)[0]
+    return list(filter(is_subparser, actions))[0]
 
 def is_optional(action):
   '''_actions not positional or possessing the `required` flag'''

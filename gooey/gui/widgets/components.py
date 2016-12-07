@@ -54,7 +54,7 @@ class BaseGuiComponent(object):
     return self.panel
 
   def bind(self, *args, **kwargs):
-    print self.widget_pack.widget.Bind(*args, **kwargs)
+    print (self.widget_pack.widget.Bind(*args, **kwargs))
 
   def get_title(self):
     return self.title.GetLabel()

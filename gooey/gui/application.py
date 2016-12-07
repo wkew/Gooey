@@ -12,12 +12,20 @@ from gooey.gui import image_repository
 
 
 def run(build_spec):
-  app = wx.App(False)
+  app = QApplication(sys.argv)
+
+
+  #app = wx.App(False)
 
   i18n.load(build_spec['language_dir'], build_spec['language'])
   image_repository.patch_images(build_spec['image_dir'])
   controller = Controller(build_spec)
   controller.run()
+
+  # form = Form()
+  # form.show()
+  # app.exec_()
+
   app.MainLoop()
 
 
